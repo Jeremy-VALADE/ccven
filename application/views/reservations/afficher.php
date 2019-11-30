@@ -4,7 +4,7 @@
     <p>Cocher les cases pour supprimer les réservations</p>
 </div>
 <?php echo validation_errors('<div class="alert alert-warning" role="alert">', '</div>'); ?>
-
+<?php echo form_open('Reservations/delectReservation'); ?>
 <div>
     <?php
     $i = 1;
