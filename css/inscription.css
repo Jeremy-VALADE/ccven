@@ -1,0 +1,24 @@
+.inscription, .formConnection, .formChange
+{
+    display: block;
+    margin-left:auto;
+    margin-right:auto;
+    width: 50%;
+    text-align: center;
+}
+
+.inscription .button, .formConnection .button, .formChange .button
+{
+    width: 100%;
+}
+
+.menu
+{
+    display: block;
+    float: right;
+}
+
+.button
+{
+    margin-top: 20px;
+}

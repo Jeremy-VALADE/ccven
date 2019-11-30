@@ -1,0 +1,43 @@
+.formDate h3, .formDate select
+{
+   display: block;
+   margin-left: auto;
+   margin-right: auto;
+   text-align: center;
+}
+
+.formDate select
+{
+    width: 20%;
+    text-align: center;
+}
+
+.buttonReservation input
+{
+    margin-top: 20px;
+    text-align: center;
+    font-size: 25px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 30%;
+}
+
+.pension
+{
+    background-color: #F5F5DC;
+    font-size: 20px;
+}
+
+.menage
+{
+    background-color: #F0FFFF;
+    font-size: 20px;
+}
+
+.alert
+{
+    text-align: center;
+    color: red;
+    font-size: 20px;
+}

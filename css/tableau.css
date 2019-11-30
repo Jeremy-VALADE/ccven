@@ -1,0 +1,56 @@
+.element1
+{
+    font-size: 25px;
+    color : red;
+    padding-bottom: 0px;
+    text-align : center;
+}
+
+.element
+{
+    caption-side: top;
+    text-align: center;
+    font-size : 20px;
+}
+
+td, th
+{
+    text-align: center;
+}
+
+hr
+{
+    border: none;
+    border-top: 3px double green;
+    color: #333;
+    overflow: visible;
+    text-align: center;
+    height: 10px;
+}
+
+.button 
+{
+    text-align: center;    
+    margin-bottom: 7%;
+}
+
+.button input
+{
+    font-size : 30px;
+    margin-top: 10px;
+}
+
+p
+{
+    font-size : 20px;
+}
+
+h2 
+{
+    text-align: center;
+    background-color: grey;
+    color : white;
+    height: 50px;
+}
+
+
