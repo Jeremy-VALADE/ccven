@@ -22,11 +22,11 @@
             return $this->db->insert('adherent', $data);
         }
         
-        public function getInformation(){
+        public function getInformation($mail){
              $this->db
              ->select('*')
              ->from('adherent')
-             ->where('adh_email', $this->input->post('adh_email'));
+             ->where('adh_email', $mail);
              
              $query = $this->db->get();             
              return $query->result_array();
@@ -35,7 +35,7 @@
         public function changePassword() {
             $this->db
             ->set('adh_password',$this->input->post('password'))
-            ->where('adh_id',$this->session->identifiant)
+            ->where('adh_email',$this->session->identifiant)
             ->update('adherent');
             
         }

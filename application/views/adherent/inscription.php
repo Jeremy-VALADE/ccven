@@ -2,7 +2,7 @@
 
 <div class ="inscription">
     <?php echo validation_errors('<div class="alert alert-warning" role="alert">', '</div>'); ?>
-    <?php echo form_open('adherent/inscription'); ?>
+    <?php echo form_open('Adherent/inscription'); ?>
 
     <label for="adh_nom">Votre Nom</label>
     <input class ="form-control" type="text" name="adh_nom" /> <br /> 
@@ -37,6 +37,6 @@
     <label for="adh_codepostal">Code Postal</label>
     <input class ="form-control" type="text" name="adh_codepostal" /> <br /> 
 
-    <input class ="button" type="submit" name="submit" value="Valider" />
+    <input class ="button" type="submit" name="submit" value="Valider"/>
 </form>
 </div>

@@ -75,11 +75,16 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => 'localhost',
-	'username' => 'root',
-	'password' => '',
+	/*'hostname' => 'http://chamilo.rene-descartes.fr/phppgadmin/',
+	'username' => 'groupee',
+	'password' => 'grpe',
+	'database' => 'ccvenGroupe3',
+	'dbdriver' => 'postgre',*/
+        'hostname' => 'localhost',
+	'username' => 'jeremy',
+	'password' => 'test',
 	'database' => 'ccven',
-	'dbdriver' => 'mysqli',
+	'dbdriver' => 'postgre',
 	'dbprefix' => '',
 	'pconnect' => FALSE,
 	'db_debug' => (ENVIRONMENT !== 'production'),

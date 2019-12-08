@@ -8,6 +8,7 @@ class Reservations extends CI_Controller {
         $this->load->helper('url');
         $this->load->library('form_validation');
         $this->load->model('Reservations_Modele');
+        $this->load->model('Adherent_Modele');
         $this->load->library('session');
         
         $this->load->view('templates/header');
@@ -31,7 +32,7 @@ class Reservations extends CI_Controller {
             //$this->load->view("templates/footer");
         }
 
-        $this->Reservations_Modele->insertReservations();
+        $this->Reservations_Modele->insertReservations($this->Adherent_Modele->getInformation($this->session->identifiant)[0]['adh_id']);
     }
     
     //Vérification que l'utilisateur a bien saisi un type hébergement
@@ -58,9 +59,8 @@ class Reservations extends CI_Controller {
     }
 
     //Méthode permettant d'afficher toutes les réservations du client
-    public function afficher($client = 0) {
-        $client = $this->session->identifiant;
-        $data["reservations"] = $this->Reservations_Modele->getReservation($client);
+    public function afficher($client = 0) {        
+        $data["reservations"] = $this->Reservations_Modele->getReservations($this->Adherent_Modele->getInformation($this->session->identifiant)[0]['adh_id']);
 
         $this->load->view("reservations/afficher", $data);        
     }

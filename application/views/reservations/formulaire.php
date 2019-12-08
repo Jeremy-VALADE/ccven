@@ -1,4 +1,4 @@
-<h2>Ajouter une réservation</h2>
+<h2>Effectuer une réservation</h2>
 <p class="text-center">
     La réservation ne dure qu'une semaine. 
     Vous pouvez réserver que les samedis pendant les vacances scolaires.
@@ -36,8 +36,8 @@
             <tr>
                 <td><?php echo $h['typeheb_description']; ?></td>                             
                 <td>
-                    <?php
-                    if ($h['typeheb_logementadapt'] == 1)
+                    <?php                    
+                    if ($h['typeheb_logementadapt'] == 't')
                         echo "Oui";
                     else
                         echo "Non";
@@ -47,7 +47,7 @@
                 <td><?php echo $h['typeheb_nbrelit']; ?></td>
                 <td>
                     <?php
-                    if ($h['typeheb_balcon'] == 1)
+                    if ($h['typeheb_balcon'] == 't')
                         echo "Oui";
                     else
                         echo "Non";
