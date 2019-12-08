@@ -96,7 +96,10 @@ class Adherent extends CI_Controller {
         $this->form_validation->set_rules('adh_password', 'Mot de Passe', 'required|callback_checkPassword');
         $this->form_validation->set_rules('password', 'password', 'required');
         $this->form_validation->set_rules('confirmPassword', 'confirpassword', 'required|matches[password]');
-
+        
+        if (!isset($this->session->identifiant))
+            redirect('Adherent/accueil');
+        
         if ($this->form_validation->run()) {
             $this->Adherent_Modele->changePassword();
             redirect('Adherent/accueil');
