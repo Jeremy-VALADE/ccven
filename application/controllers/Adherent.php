@@ -57,7 +57,8 @@ class Adherent extends CI_Controller {
         if ($this->form_validation->run()) {
             $this->session->identifiant = $this->input->post('adh_email');
             redirect("Adherent/accueil");
-        } else {
+        } 
+        else {
             $this->load->view('templates/menuDeconnecter');
             $this->load->view('adherent/connexion');
         }
@@ -99,7 +100,8 @@ class Adherent extends CI_Controller {
         if ($this->form_validation->run()) {
             $this->Adherent_Modele->changePassword();
             redirect('Adherent/accueil');
-        } else {
+        }
+        else {
             $this->load->view('templates/menuConnecter');
             $this->load->view('adherent/changePassword');
             $this->load->view('templates/footer');

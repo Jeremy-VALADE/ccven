@@ -10,17 +10,17 @@ class Reservations extends CI_Controller {
         $this->load->model('Reservations_Modele');
         $this->load->model('Adherent_Modele');
         $this->load->library('session');
-        
+
         $this->load->view('templates/header');
-        
-        if (!isset($this->session->identifiant)) 
+
+        if (!isset($this->session->identifiant))
             redirect("Adherent/connexion");
         else
             $this->load->view('templates/menuConnecter');
 
         $this->load->view('templates/footer');
     }
-    
+
     //Méthode pour le formulaire permettant d'effectuer une réservation
     public function formulaire() {
         $data['datesReservations'] = $this->getDateReservations();
@@ -30,11 +30,12 @@ class Reservations extends CI_Controller {
         if ($this->form_validation->run() == FALSE) {
             $this->load->view("reservations/formulaire", $data);
             //$this->load->view("templates/footer");
+        } else {
+            $this->Reservations_Modele->insertReservations($this->Adherent_Modele->getInformation($this->session->identifiant)[0]['adh_id']);
+            redirect("Adherent/accueil");            
         }
-
-        $this->Reservations_Modele->insertReservations($this->Adherent_Modele->getInformation($this->session->identifiant)[0]['adh_id']);
     }
-    
+
     //Vérification que l'utilisateur a bien saisi un type hébergement
     public function check($str) {
         if ($this->input->post('type_heb') == null) {
@@ -59,10 +60,10 @@ class Reservations extends CI_Controller {
     }
 
     //Méthode permettant d'afficher toutes les réservations du client
-    public function afficher($client = 0) {        
+    public function afficher($client = 0) {
         $data["reservations"] = $this->Reservations_Modele->getReservations($this->Adherent_Modele->getInformation($this->session->identifiant)[0]['adh_id']);
 
-        $this->load->view("reservations/afficher", $data);        
+        $this->load->view("reservations/afficher", $data);
     }
 
     //Méthode permettant de supprimer les réservations sélectionnées par le client
