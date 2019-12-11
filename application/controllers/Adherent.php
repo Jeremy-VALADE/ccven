@@ -15,10 +15,16 @@ class Adherent extends CI_Controller {
     }
 
     public function accueil() {
-        if (isset($this->session->identifiant))
-            $this->load->view('templates/menuConnecter');
+        if (isset($this->session->identifiant)) 
+        {
+            if ($this->Adherent_Modele->getInformation($this->session->identifiant)[0]['adh_niveau'] == 1)
+                $this->load->view('templates/menuAdmin');
+            else
+                $this->load->view('templates/menuConnecter');
+        } 
         else
             $this->load->view('templates/menuDeconnecter');
+        
         $this->load->view('adherent/accueil');
     }
 
@@ -46,8 +52,7 @@ class Adherent extends CI_Controller {
 
     /* Méthode de connexion pour l'utilisateur */
 
-    public function connexion() {
-
+    public function connexion() {       
         $this->form_validation->set_rules('adh_email', 'E-mail', 'required|valid_email');
         $this->form_validation->set_rules('adh_password', 'Mot de Passe', 'required|callback_checkPassword');
 
@@ -57,8 +62,7 @@ class Adherent extends CI_Controller {
         if ($this->form_validation->run()) {
             $this->session->identifiant = $this->input->post('adh_email');
             redirect("Adherent/accueil");
-        } 
-        else {
+        } else {
             $this->load->view('templates/menuDeconnecter');
             $this->load->view('adherent/connexion');
         }
@@ -76,12 +80,10 @@ class Adherent extends CI_Controller {
      */
 
     public function checkPassword() {
-        if (isset($this->session->identifiant)) 
-        {
+        if (isset($this->session->identifiant)) {
             if ($this->Adherent_Modele->getInformation($this->session->identifiant)[0]['adh_password'] == $this->input->post('adh_password'))
-                return TRUE;        
-        } 
-        else {
+                return TRUE;
+        } else {
             if (isset($this->Adherent_Modele->getInformation($this->input->post('adh_email'))[0]['adh_password']) && $this->Adherent_Modele->getInformation($this->input->post('adh_email'))[0]['adh_password'] == $this->input->post('adh_password')) {
                 return TRUE;
             } else {
@@ -96,19 +98,27 @@ class Adherent extends CI_Controller {
         $this->form_validation->set_rules('adh_password', 'Mot de Passe', 'required|callback_checkPassword');
         $this->form_validation->set_rules('password', 'password', 'required');
         $this->form_validation->set_rules('confirmPassword', 'confirpassword', 'required|matches[password]');
-        
+
         if (!isset($this->session->identifiant))
             redirect('Adherent/accueil');
-        
+
         if ($this->form_validation->run()) {
             $this->Adherent_Modele->changePassword();
             redirect('Adherent/accueil');
-        }
-        else {
+        } else {
             $this->load->view('templates/menuConnecter');
             $this->load->view('adherent/changePassword');
             $this->load->view('templates/footer');
         }
     }
+    
+    //Méthode permettant de changer les personnes
+    public function setAdherent() {
+        $data['adherents'] = $this->Adherent_Modele->getInformation();
+        
+        $this->load->view('adherent/setAdherent');
+    }
+    
+    
 
 }

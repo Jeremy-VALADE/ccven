@@ -6,6 +6,7 @@ class Reservations extends CI_Controller {
         parent::__construct();
         $this->load->helper('form');
         $this->load->helper('url');
+        $this->load->helper(array('form', 'url'));
         $this->load->library('form_validation');
         $this->load->model('Reservations_Modele');
         $this->load->model('Adherent_Modele');
@@ -15,8 +16,12 @@ class Reservations extends CI_Controller {
 
         if (!isset($this->session->identifiant))
             redirect("Adherent/connexion");
-        else
-            $this->load->view('templates/menuConnecter');
+        else {
+            if (($this->Adherent_Modele->getInformation($this->session->identifiant)[0]['adh_niveau'] == 1))
+                $this->load->view('templates/menuAdmin');
+            else
+                $this->load->view('templates/menuConnecter');
+        }
 
         $this->load->view('templates/footer');
     }
@@ -32,7 +37,7 @@ class Reservations extends CI_Controller {
             //$this->load->view("templates/footer");
         } else {
             $this->Reservations_Modele->insertReservations($this->Adherent_Modele->getInformation($this->session->identifiant)[0]['adh_id']);
-            redirect("Adherent/accueil");            
+            redirect("Adherent/accueil");
         }
     }
 
@@ -74,4 +79,24 @@ class Reservations extends CI_Controller {
         redirect("Reservations/afficher");
     }
 
+    public function setReservations() {
+        $data["reservations"] = $this->Reservations_Modele->getReservations();
+        $this->load->view("reservations/setReservations", $data);
+    }
+
+    public function toto() {
+        $data["reservations"] = $this->Reservations_Modele->getReservations();
+        if (!empty($this->input->post('Valider')))
+            $this->Reservations_Modele->updateReservation($this->input->post("resid[". $this->input->post('Valider') . "]"), "Valide");
+        if (!empty($this->input->post('Archiver'))) 
+            $this->Reservations_Modele->updateReservation($this->input->post("resid[". $this->input->post('Archiver') . "]"), "Archiver");
+        if (!empty($this->input->post('Supprimer')))
+            $this->Reservations_Modele->delectReservation($this->input->post("Supprimer"));
+        
+        redirect('Reservations/setReservations');
+    }
+    /*
+     * Modifier toutes les données des utilisateurs 
+     * En plus le niveau d'agréditation
+     */
 }

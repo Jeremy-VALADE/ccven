@@ -48,20 +48,29 @@ class Reservations_Modele extends CI_Model {
         return $this->db->insert('reservation', $data);
     }
 
-    public function updateReservation($reservations) {
-        foreach ($reservations as $r):
-            $this->db
-                    ->set('res_valide', $r->input->post('etat'))
-                    ->where('$res_id', $r->input->post('identifiant'))
-                    ->update('reservation');
-        endforeach;
+    public function updateReservation($reservation, $etat) {
+        $data = array(
+            'res_valide' => $etat,
+            'res_datedebut' => $reservation['dateDebut'],
+            'res_datefin' => date("Y-m-d", strtotime(date("Y-m-d", strtotime($reservation['dateDebut'])) . " + 1 week"))
+        );
+
+        $this->db->set($data)->where('res_id', $reservation['id'])->update('reservation');
     }
 
     public function delectReservation($id) {
-        foreach ($id as $i):
-            $i->db->where(array('res_id' => $i));
-            $i->db->delete('reservation');
-        endforeach;
+        if (!is_array($id)) 
+        {
+            $this->db->where(array('res_id' => $id));
+            $this->db->delete('reservation');
+        } 
+        else 
+        {
+            foreach ($id as $i):
+                $this->db->where(array('res_id' => $i));
+                $this->db->delete('reservation');
+            endforeach;
+        }
     }
 
     public function getTypeHebergement($heb = 0) {
