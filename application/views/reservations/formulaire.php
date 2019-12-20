@@ -80,7 +80,7 @@
         </div>
 
         <div class="form-check">
-            <input class="form-check-input" type="radio" name="pension" id="pensionPartielle" value="0" checked>
+            <input class="form-check-input" type="radio" name="pension" id="pensionPartielle" value="0">
             <label class="form-check-label" for="pensionPartielle">
                 Pension Partielle
             </label>

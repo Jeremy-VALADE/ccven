@@ -52,7 +52,7 @@
 
                                 <td>
                                     <?php
-                                    if ($r['res_menage'] == 1)
+                                    if ($r['res_menage'] == 't')
                                         echo "Ménage fait par le personnel";
                                     else
                                         echo "Ménage fait par vous";
@@ -61,7 +61,7 @@
 
                                 <td>
                                     <?php
-                                    if ($r['res_pension'] == 1)
+                                    if ($r['res_pension'] == 't')
                                         echo "Pension complète";
                                     else
                                         echo "Demi Pension";

@@ -16,18 +16,33 @@ class Reservations_Modele extends CI_Model {
                     ->select('*')
                     ->from('reservation')
                     ->join("type_hebergement", "reservation.typeheb_id = type_hebergement.typeheb_id")
+                    ->join("adherent", "adherent.adh_id = reservation.adh_id")
                     ->order_by('res_date_reserv');
         } else {
             $this->db
                     ->select('*')
                     ->from('reservation')
                     ->join("type_hebergement", "reservation.typeheb_id = type_hebergement.typeheb_id")
-                    ->where(array('adh_id' => $client))
+                    ->join("adherent", "adherent.adh_id = reservation.adh_id")
+                    ->where(array('reservation.adh_id' => $client))
                     ->order_by('res_date_reserv');
         }
 
         $query = $this->db->get();
 
+        return $query->result_array();
+    }
+
+    public function getReservation($id) {
+        $this->db
+                ->select('*')
+                ->from('reservation')
+                ->join("type_hebergement", "reservation.typeheb_id = type_hebergement.typeheb_id")
+                ->join("adherent", "adherent.adh_id = reservation.adh_id")
+                ->where(array('res_id' => $id))
+                ->order_by('res_date_reserv');
+
+        $query = $this->db->get();
         return $query->result_array();
     }
 
@@ -48,24 +63,25 @@ class Reservations_Modele extends CI_Model {
         return $this->db->insert('reservation', $data);
     }
 
-    public function updateReservation($reservation, $etat) {
+    public function updateReservation($etat) {
         $data = array(
             'res_valide' => $etat,
-            'res_datedebut' => $reservation['dateDebut'],
-            'res_datefin' => date("Y-m-d", strtotime(date("Y-m-d", strtotime($reservation['dateDebut'])) . " + 1 week"))
+            'res_datedebut' => $this->input->post('dateDebut'),
+            'res_datefin' =>  date("Y-m-d", strtotime(date("Y-m-d", strtotime($this->input->post('dateDebut'))) . " + 1 week")),
+            'res_tarif' => $this->input->post('tarif'),
+            'res_menage' => $this->input->post('menage'),
+            'res_pension' => $this->input->post('pension'),  
+            'typeheb_id' => $this->input->post('type_heb'),            
         );
 
-        $this->db->set($data)->where('res_id', $reservation['id'])->update('reservation');
+        $this->db->set($data)->where('res_id', $this->input->post('idReservation'))->update('reservation');
     }
 
     public function delectReservation($id) {
-        if (!is_array($id)) 
-        {
+        if (!is_array($id)) {
             $this->db->where(array('res_id' => $id));
             $this->db->delete('reservation');
-        } 
-        else 
-        {
+        } else {
             foreach ($id as $i):
                 $this->db->where(array('res_id' => $i));
                 $this->db->delete('reservation');

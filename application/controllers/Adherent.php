@@ -15,16 +15,14 @@ class Adherent extends CI_Controller {
     }
 
     public function accueil() {
-        if (isset($this->session->identifiant)) 
-        {
+        if (isset($this->session->identifiant)) {
             if ($this->Adherent_Modele->getInformation($this->session->identifiant)[0]['adh_niveau'] == 1)
                 $this->load->view('templates/menuAdmin');
             else
                 $this->load->view('templates/menuConnecter');
-        } 
-        else
+        } else
             $this->load->view('templates/menuDeconnecter');
-        
+
         $this->load->view('adherent/accueil');
     }
 
@@ -52,7 +50,7 @@ class Adherent extends CI_Controller {
 
     /* Méthode de connexion pour l'utilisateur */
 
-    public function connexion() {       
+    public function connexion() {
         $this->form_validation->set_rules('adh_email', 'E-mail', 'required|valid_email');
         $this->form_validation->set_rules('adh_password', 'Mot de Passe', 'required|callback_checkPassword');
 
@@ -111,14 +109,40 @@ class Adherent extends CI_Controller {
             $this->load->view('templates/footer');
         }
     }
-    
+
     //Méthode permettant de changer les personnes
-    public function setAdherent() {
+    public function getAdherents() {
         $data['adherents'] = $this->Adherent_Modele->getInformation();
-        
-        $this->load->view('adherent/setAdherent');
+        $this->load->view('templates/menuAdmin');
+        $this->load->view('adherent/getAdherents', $data);
     }
-    
-    
+
+    public function setAdherent() {
+        if (!empty($this->input->post('supprimer'))) {
+            $this->Adherent_Modele->delectAdherent($this->input->post('supprimer'));
+            redirect('adherent/getAdherents');
+        }
+        
+        $data['adherents'] = $this->Adherent_Modele->getInformation($this->input->post('modifier'));
+        $this->load->view('templates/menuAdmin');
+        $this->load->view('adherent/setAdherent', $data);
+
+        $this->form_validation->set_rules('adh_nom', 'Nom', 'required');
+        $this->form_validation->set_rules('adh_prenom', 'Prenom', 'required');
+        $this->form_validation->set_rules('adh_password', 'Mot de Passe', 'required');
+        $this->form_validation->set_rules('adh_email', 'E-mail', 'required|valid_email');
+        $this->form_validation->set_rules('adh_tel', 'Numero de Telephone', 'required');
+        $this->form_validation->set_rules('adh_adresse', 'Adresse', 'required');
+        $this->form_validation->set_rules('adh_ville', 'Ville', 'required');
+        $this->form_validation->set_rules('adh_codepostal', 'Code Postal', 'required');
+
+        if (($this->form_validation->run())) {
+            if (!empty($this->input->post('modifier')))
+                $this->Adherent_Modele->updateAdherent($this->input->post('modifier'));
+            else if (!empty($this->input->post('supprimer')))
+                $this->Adherent_Modele->delectAdherent($this->input->post('supprimer'));
+            redirect('adherent/getAdherents');
+        }        
+    }
 
 }

@@ -67,7 +67,6 @@ class Reservations extends CI_Controller {
     //Méthode permettant d'afficher toutes les réservations du client
     public function afficher($client = 0) {
         $data["reservations"] = $this->Reservations_Modele->getReservations($this->Adherent_Modele->getInformation($this->session->identifiant)[0]['adh_id']);
-
         $this->load->view("reservations/afficher", $data);
     }
 
@@ -79,24 +78,28 @@ class Reservations extends CI_Controller {
         redirect("Reservations/afficher");
     }
 
-    public function setReservations() {
+    public function getReservations() {
         $data["reservations"] = $this->Reservations_Modele->getReservations();
-        $this->load->view("reservations/setReservations", $data);
+        $this->load->view("reservations/getReservations", $data);
     }
 
-    public function toto() {
-        $data["reservations"] = $this->Reservations_Modele->getReservations();
-        if (!empty($this->input->post('Valider')))
-            $this->Reservations_Modele->updateReservation($this->input->post("resid[". $this->input->post('Valider') . "]"), "Valide");
-        if (!empty($this->input->post('Archiver'))) 
-            $this->Reservations_Modele->updateReservation($this->input->post("resid[". $this->input->post('Archiver') . "]"), "Archiver");
-        if (!empty($this->input->post('Supprimer')))
-            $this->Reservations_Modele->delectReservation($this->input->post("Supprimer"));
-        
-        redirect('Reservations/setReservations');
+    public function setReservation() {
+        $data["reservation"] = $this->Reservations_Modele->getReservation($this->input->post('modifier'));
+        $data["hebergements"] = $this->Reservations_Modele->getTypeHebergement();
+        $this->load->view("reservations/setReservation", $data);
+        $this->form_validation->set_rules('dateDebut', 'date début de séjour', 'required');
+
+        if ($this->form_validation->run()) {
+
+            if (!empty($this->input->post('valider')))
+                $this->Reservations_Modele->updateReservation("Valide");
+            if (!empty($this->input->post('modifier')))
+                $this->Reservations_Modele->updateReservation($this->input->post('etat'));
+            if (!empty($this->input->post('archiver')))
+                $this->Reservations_Modele->updateReservation("Archiver");
+            if (!empty($this->input->post('supprimer')))
+                $this->Reservations_Modele->delectReservation($this->input->post("Supprimer"));
+            redirect('Reservations/getReservations');
+        }
     }
-    /*
-     * Modifier toutes les données des utilisateurs 
-     * En plus le niveau d'agréditation
-     */
 }
