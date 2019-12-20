@@ -5,7 +5,6 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <ul class="navbar-nav mr-auto"></ul>
-
         <ul class="navbar-nav mr-0">
             <li class="nav-item">
                 <a class="nav-link " href="<?php echo site_url('Adherent/connexion'); ?>">Connexion</a>
