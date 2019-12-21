@@ -1,6 +1,4 @@
-<div>
-    <h2>Vos réservations</h2>
-</div>
+<h2>Liste des réservations</h2>
 <?php echo validation_errors('<div class="alert alert-warning" role="alert">', '</div>'); ?>
 <?php echo form_open('Reservations/setReservation'); ?>
 <div>
@@ -27,12 +25,11 @@
                 <td><?php echo $r['res_datefin']; ?></td>                    
                 <td><button class="btn btn-outline-primary"  type ="submit" name ="modifier" value ="<?php echo $r['res_id']; ?>">Modifier</button></td>
                 <td><button class="btn btn-outline-danger"  type ="submit" name ="supprimer" value ="<?php echo $r['res_id']; ?>">Supprimer</button></td>           
-            </tr>  
-    </div>
-    <?php
-    $i++;
-endforeach;
-?>
- </table>
-</form>   
+            </tr> 
+            <?php
+            $i++;
+        endforeach;
+        ?>
+    </table>
+</div>
 

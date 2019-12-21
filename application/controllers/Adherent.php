@@ -14,7 +14,7 @@ class Adherent extends CI_Controller {
         $this->load->view('templates/footer');
     }
 
-    public function accueil() {
+    public function index() {
         if (isset($this->session->identifiant)) {
             if ($this->Adherent_Modele->getInformation($this->session->identifiant)[0]['adh_niveau'] == 1)
                 $this->load->view('templates/menuAdmin');
@@ -41,7 +41,7 @@ class Adherent extends CI_Controller {
         if ($this->form_validation->run()) {
             $this->Adherent_Modele->inserer();
             $this->session->identifiant = $this->input->post('adh_email');
-            redirect('Adherent/accueil');
+            redirect('Adherent');
         } else {
             $this->load->view('templates/menuDeconnecter');
             $this->load->view('adherent/inscription');
@@ -55,11 +55,11 @@ class Adherent extends CI_Controller {
         $this->form_validation->set_rules('adh_password', 'Mot de Passe', 'required|callback_checkPassword');
 
         if (isset($this->session->identifiant))
-            redirect('Adherent/accueil');
+            redirect('Adherent');
 
         if ($this->form_validation->run()) {
             $this->session->identifiant = $this->input->post('adh_email');
-            redirect("Adherent/accueil");
+            redirect("Adherent");
         } else {
             $this->load->view('templates/menuDeconnecter');
             $this->load->view('adherent/connexion');
@@ -98,11 +98,11 @@ class Adherent extends CI_Controller {
         $this->form_validation->set_rules('confirmPassword', 'confirpassword', 'required|matches[password]');
 
         if (!isset($this->session->identifiant))
-            redirect('Adherent/accueil');
+            redirect('Adherent');
 
         if ($this->form_validation->run()) {
             $this->Adherent_Modele->changePassword();
-            redirect('Adherent/accueil');
+            redirect('Adherent');
         } else {
             $this->load->view('templates/menuConnecter');
             $this->load->view('adherent/changePassword');

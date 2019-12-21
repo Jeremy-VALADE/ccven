@@ -1,6 +1,6 @@
 <?php echo validation_errors('<div class="alert alert-warning" role="alert">', '</div>'); ?>
 <?php echo form_open('Adherent/setAdherent'); ?>
-
+<h2>Liste des utilisateurs</h2>
 <table class ="table">
     <thead class = "thead-dark">
         <tr>

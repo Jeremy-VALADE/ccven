@@ -1,4 +1,4 @@
-.inscription, .formConnection, .formChange
+.form
 {
     display: block;
     margin-left:auto;
@@ -7,18 +7,18 @@
     text-align: center;
 }
 
-.inscription .button, .formConnection .button, .formChange .button
+.btn
 {
     width: 100%;
+    margin-top: 10px;
 }
 
-.menu
-{
-    display: block;
-    float: right;
+@media screen and (max-width: 1200px) {
+    .form{
+         width: 90%;
+         height: 20%;
+    }     
 }
 
-.button
-{
-    margin-top: 20px;
-}
+
+

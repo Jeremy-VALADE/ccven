@@ -4,17 +4,17 @@
     Vous pouvez réserver que les samedis pendant les vacances scolaires.
 </p>
 
-<?php echo validation_errors('<div class="alert alert-warning" role="alert">','</div>' ); ?>
-
-
 <div>
     <?php echo form_open('Reservations/formulaire'); ?>
-    <div class = "formDate">
+    <div class = "form">
+        <?php echo validation_errors('<div class="alert alert-warning" role="alert">', '</div>'); ?>
         <h3>Date disponibles</h3>
         <select name="dateDebut">
             <?php for ($i = 0; $i < count($datesReservations); $i++) {
                 ?>
-                <option class = "dropdown-item" value = <?php echo $datesReservations[$i]; ?>><?php $date = new DateTime($datesReservations[$i]); echo date_format($date, 'F j Y'); ?></option>
+                <option class = "dropdown-item" value = <?php echo $datesReservations[$i]; ?>><?php $date = new DateTime($datesReservations[$i]);
+            echo date_format($date, 'F j Y');
+                ?></option>
                 <?php
             }
             ?>
@@ -32,11 +32,11 @@
         <th scope = "col">Tarif hébergement</th>
         <th scope = "col">Cocher un hébergement</th>
         </thead>
-        <?php foreach ($hebergements as $h): ?> 
+<?php foreach ($hebergements as $h): ?> 
             <tr>
                 <td><?php echo $h['typeheb_description']; ?></td>                             
                 <td>
-                    <?php                    
+                    <?php
                     if ($h['typeheb_logementadapt'] == 't')
                         echo "Oui";
                     else
@@ -55,10 +55,12 @@
                 </td>
                 <td><?php echo $h['typeheb_tarif']; ?></td>
                 <td>
-                    <input type="radio" name = "type_heb" value = "<?php echo $h['typeheb_id']; ?>"/><br />  
+                    <div class="form-check">
+                        <input type="radio" name = "type_heb" value = "<?php echo $h['typeheb_id']; ?>"/><br />  
+                    </div>
                 </td>
             </tr>           
-        <?php endforeach; ?>
+<?php endforeach; ?>
     </table>     
     <div class ="menage">
         <div class="form-check">  
@@ -86,8 +88,6 @@
             </label>
         </div>
     </div>
-    <div class ="buttonReservation">
-        <input class = "btn btn-primary" type="submit" name="submit" value="Effectuer une réservation" />
-    </div>
+    <input class = "btn btn-primary" type="submit" name="submit" value="Effectuer une réservation" />
 </form>
 </div>
