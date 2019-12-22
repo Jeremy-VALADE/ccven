@@ -2,6 +2,7 @@ body
 {
     margin-bottom: 8%;
     margin-top: 4%;
+    font-size: 20px;
 }
 
 footer {
@@ -29,6 +30,10 @@ h2
         height: 100%;
         margin-bottom: auto;
         margin-right: auto;
+    }
+    h2
+    {
+        margin-top: 10%;
     }
 }
 
