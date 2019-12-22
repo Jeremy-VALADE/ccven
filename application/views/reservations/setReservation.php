@@ -8,7 +8,7 @@
             <h2>Réservation n°<?php echo $r['res_id']; ?></h2>
         </div>
         <div class="flex">
-            <div class="formulaire">
+            <div class = "reservation" style="width: 50%;">
                 <div class="card card-body">
                     <label for ="personne">Personne ayant effectué la réservation</label>
                     <input class="form-control" type ="text" name ="personne" value ="<?php echo $r['adh_email']; ?>" readonly>
@@ -69,7 +69,7 @@
 
             <div class ="reservation">
                 <div class="card card-body">
-                    <table class ="table table-bordered">
+                    <table class ="table table-bordered table-sm">
                         <caption class = "element">Description des hébergements</caption> 
                         <thead class ="thead-dark">                
                         <th scope = "col">Description de la chambre</th>
@@ -116,7 +116,7 @@
                 </div>
             </div>
         </div>
-        <div class ="mt-5 text-center">
+        <div class="btn-group pr-1" role="group" aria-label="Basic example" style="width: 100%;">
             <input id="prodId" name="idReservation" type="hidden" value="<?php echo $r['res_id']; ?>">
             <button class = "btn btn-outline-success" type = "submit" name = "modifier"value="<?php echo $r['res_id']; ?>">Modifier la réservation</button>
             <button class = "btn btn-outline-success" type = "submit" name = "valider" value="<?php echo $r['res_id']; ?>">Valider la réservation</button>

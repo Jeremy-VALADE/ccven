@@ -11,5 +11,5 @@
         <label for="password">Mot de passe</label>
         <input type="password" class="form-control" id="password" name="adh_password">
     </div>
-    <input class ="btn btn-outline-success" type="submit" name="submit" value="Connection" />
+    <input class ="btn btn-outline-success" type="submit" name="submit" value="Connexion" />
 </div>

@@ -13,11 +13,28 @@
     margin-top: 10px;
 }
 
+.flex
+{
+    display: flex; 
+}
+
+.reservation .card
+{
+    height: 100%;   
+}
+
 @media screen and (max-width: 1200px) {
     .form{
-         width: 90%;
-         height: 20%;
-    }     
+        width: 90%;
+        height: 20%;
+    } 
+
+    .flex{
+        flex-direction: column;
+        width: 100%;
+        text-align: center;
+    }
+
 }
 
 

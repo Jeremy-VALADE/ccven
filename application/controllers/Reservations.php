@@ -13,21 +13,23 @@ class Reservations extends CI_Controller {
         $this->load->library('session');
 
         $this->load->view('templates/header');
+        $this->loadMenu();
 
-        if (!isset($this->session->identifiant))
-            redirect("Adherent/connexion");
-        else {
-            if (($this->Adherent_Modele->getInformation($this->session->identifiant)[0]['adh_niveau'] == 1))
-                $this->load->view('templates/menuAdmin');
-            else
-                $this->load->view('templates/menuConnecter');
-        }
+        /* if (!isset($this->session->identifiant))
+          redirect("Adherent/connexion");
+          else {
+          if (($this->Adherent_Modele->getInformation($this->session->identifiant)[0]['adh_niveau'] == 1))
+          $this->load->view('templates/menuAdmin');
+          else
+          $this->load->view('templates/menuConnecter');
+          } */
 
         $this->load->view('templates/footer');
     }
 
     //Méthode pour le formulaire permettant d'effectuer une réservation
     public function formulaire() {
+        $this->verifSession(0);
         $data['datesReservations'] = $this->getDateReservations();
         $data['hebergements'] = $this->Reservations_Modele->getTypeHebergement();
         $this->form_validation->set_rules('username', 'Username', 'callback_check');
@@ -37,7 +39,7 @@ class Reservations extends CI_Controller {
             //$this->load->view("templates/footer");
         } else {
             $this->Reservations_Modele->insertReservations($this->Adherent_Modele->getInformation($this->session->identifiant)[0]['adh_id']);
-            redirect("Adherent/accueil");
+            redirect("Adherent");
         }
     }
 
@@ -52,7 +54,7 @@ class Reservations extends CI_Controller {
     }
 
     //Méthode permmettant de récupérer les dates disponibles de la réservation
-    public function getDateReservations() {
+    private function getDateReservations() {
         $dates = array();
         $file = fopen("dates.csv", "r");
         $i = 0;
@@ -66,6 +68,7 @@ class Reservations extends CI_Controller {
 
     //Méthode permettant d'afficher toutes les réservations du client
     public function afficher($client = 0) {
+        $this->verifSession(0);
         $data["reservations"] = $this->Reservations_Modele->getReservations($this->Adherent_Modele->getInformation($this->session->identifiant)[0]['adh_id']);
         $this->load->view("reservations/afficher", $data);
     }
@@ -79,11 +82,13 @@ class Reservations extends CI_Controller {
     }
 
     public function getReservations() {
+        $this->verifSession(1);
         $data["reservations"] = $this->Reservations_Modele->getReservations();
         $this->load->view("reservations/getReservations", $data);
     }
 
     public function setReservation() {
+        $this->verifSession(1);
         $data["reservation"] = $this->Reservations_Modele->getReservation($this->input->post('modifier'));
         $data["hebergements"] = $this->Reservations_Modele->getTypeHebergement();
         $this->load->view("reservations/setReservation", $data);
@@ -102,4 +107,22 @@ class Reservations extends CI_Controller {
             redirect('Reservations/getReservations');
         }
     }
+
+    public function loadMenu() {
+        if (isset($this->session->identifiant)) {
+            if ($this->Adherent_Modele->getInformation($this->session->identifiant)[0]['adh_niveau'] == 1)
+                $this->load->view('templates/menuAdmin');
+            else
+                $this->load->view('templates/menuConnecter');
+        } else
+            $this->load->view('templates/menuDeconnecter');
+    }
+
+    public function verifSession($id) {
+        if (!isset($this->session->identifiant))
+            redirect('Adherent/connexion');
+        if ($this->Adherent_Modele->getInformation($this->session->identifiant)[0]['adh_niveau'] != $id)
+            redirect('Adherent/connexion');
+    }
+
 }

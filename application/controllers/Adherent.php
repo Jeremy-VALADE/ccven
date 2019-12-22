@@ -11,18 +11,11 @@ class Adherent extends CI_Controller {
         $this->load->helper('form');
         $this->load->library('session');
         $this->load->view('templates/header');
+        $this->loadMenu();
         $this->load->view('templates/footer');
     }
 
     public function index() {
-        if (isset($this->session->identifiant)) {
-            if ($this->Adherent_Modele->getInformation($this->session->identifiant)[0]['adh_niveau'] == 1)
-                $this->load->view('templates/menuAdmin');
-            else
-                $this->load->view('templates/menuConnecter');
-        } else
-            $this->load->view('templates/menuDeconnecter');
-
         $this->load->view('adherent/accueil');
     }
 
@@ -42,8 +35,7 @@ class Adherent extends CI_Controller {
             $this->Adherent_Modele->inserer();
             $this->session->identifiant = $this->input->post('adh_email');
             redirect('Adherent');
-        } else {
-            $this->load->view('templates/menuDeconnecter');
+        } else {            
             $this->load->view('adherent/inscription');
         }
     }
@@ -61,7 +53,7 @@ class Adherent extends CI_Controller {
             $this->session->identifiant = $this->input->post('adh_email');
             redirect("Adherent");
         } else {
-            $this->load->view('templates/menuDeconnecter');
+
             $this->load->view('adherent/connexion');
         }
     }
@@ -97,14 +89,12 @@ class Adherent extends CI_Controller {
         $this->form_validation->set_rules('password', 'password', 'required');
         $this->form_validation->set_rules('confirmPassword', 'confirpassword', 'required|matches[password]');
 
-        if (!isset($this->session->identifiant))
-            redirect('Adherent');
+        $this->verifSession(0);
 
         if ($this->form_validation->run()) {
             $this->Adherent_Modele->changePassword();
             redirect('Adherent');
         } else {
-            $this->load->view('templates/menuConnecter');
             $this->load->view('adherent/changePassword');
             $this->load->view('templates/footer');
         }
@@ -112,19 +102,20 @@ class Adherent extends CI_Controller {
 
     //Méthode permettant de changer les personnes
     public function getAdherents() {
+        $this->verifSession(1);
         $data['adherents'] = $this->Adherent_Modele->getInformation();
-        $this->load->view('templates/menuAdmin');
         $this->load->view('adherent/getAdherents', $data);
     }
 
     public function setAdherent() {
+        $this->verifSession(1);
+
         if (!empty($this->input->post('supprimer'))) {
             $this->Adherent_Modele->delectAdherent($this->input->post('supprimer'));
             redirect('adherent/getAdherents');
         }
-        
+
         $data['adherents'] = $this->Adherent_Modele->getInformation($this->input->post('modifier'));
-        $this->load->view('templates/menuAdmin');
         $this->load->view('adherent/setAdherent', $data);
 
         $this->form_validation->set_rules('adh_nom', 'Nom', 'required');
@@ -142,7 +133,24 @@ class Adherent extends CI_Controller {
             else if (!empty($this->input->post('supprimer')))
                 $this->Adherent_Modele->delectAdherent($this->input->post('supprimer'));
             redirect('adherent/getAdherents');
-        }        
+        }
+    }
+
+    public function loadMenu() {
+        if (isset($this->session->identifiant)) {
+            if ($this->Adherent_Modele->getInformation($this->session->identifiant)[0]['adh_niveau'] == 1)
+                $this->load->view('templates/menuAdmin');
+            else
+                $this->load->view('templates/menuConnecter');
+        } else
+            $this->load->view('templates/menuDeconnecter');
+    }
+
+    public function verifSession($id) {        
+        if (!isset($this->session->identifiant))
+            redirect('Adherent/connexion');
+        if ($this->Adherent_Modele->getInformation($this->session->identifiant)[0]['adh_niveau'] != $id)
+            redirect('Adherent/connexion');
     }
 
 }

@@ -50,7 +50,7 @@
                 <option value = "<?php echo $niveau; ?>"><?php echo $niveau; ?></option>
             </select>
         </div>
-        <div class="btn-group" role="group" aria-label="Basic example" style="width: 100%;">
+        <div class="btn-group pr-1" role="group" aria-label="Basic example" style="width: 100%;">
             <button class="btn btn-outline-primary" type="submit" name="modifier" value ="<?php echo $p['adh_email']; ?>">Modifier</button>
             <button class="btn btn-outline-danger" type="submit" name="supprimer" value ="<?php echo $p['adh_email']; ?>">Supprimer</button>
             <button class="btn btn-outline-secondary" type="submit" name="annuler" value ="<?php echo $p['adh_email']; ?>">Annuler</button>
