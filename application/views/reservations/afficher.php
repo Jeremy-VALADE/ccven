@@ -1,7 +1,5 @@
-<div>
-    <h2>Vos réservations</h2>
-    <p>Cocher les cases pour supprimer les réservations</p>
-</div>
+<h2>Vos réservations</h2>
+<p>Cocher les cases pour supprimer les réservations</p>
 <?php echo validation_errors('<div class="alert alert-warning" role="alert">', '</div>'); ?>
 <?php echo form_open('Reservations/delectReservation'); ?>
 <div>
@@ -104,7 +102,7 @@
             $i++;
         endforeach; ?>
         <div class = "button">
-            <input class="btn btn-outline-warning" type="submit" name="submit" value="Supprimer les réservations" />   
+            <input class="btn btn-warning" style="margin-top:10px" type="submit" name="submit" value="Supprimer les réservations" onclick="return verif()" />   
         </div>
         </form>   
     </div>

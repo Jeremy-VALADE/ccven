@@ -111,7 +111,7 @@ class Adherent extends CI_Controller {
         $this->verifSession(1);
         if (!empty($this->input->post('supprimer'))) {
             $this->Adherent_Modele->delectAdherent($this->input->post('supprimer'));
-            redirect('adherent/getAdherents');
+            redirect('Adherent/getAdherents');
         }
 
         $data['adherents'] = $this->Adherent_Modele->getInformation($this->input->post('modifier'));
@@ -145,10 +145,8 @@ class Adherent extends CI_Controller {
             $this->load->view('templates/menuDeconnecter');
     }
 
-    public function verifSession($id) {        
-        if (!isset($this->session->identifiant))
-            redirect('Adherent/connexion');
-        if ($this->Adherent_Modele->getInformation($this->session->identifiant)[0]['adh_niveau'] != $id)
+    public function verifSession($id) { 
+        if (!isset($this->session->identifiant) || $this->Adherent_Modele->getInformation($this->session->identifiant)[0]['adh_niveau'] != $id)
             redirect('Adherent/connexion');
     }
 

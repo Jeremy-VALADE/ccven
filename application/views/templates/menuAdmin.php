@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="fixed-top navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" href="<?php echo site_url('Adherent'); ?>">
         <img src="<?php echo base_url(); ?>images/icone.png" width="30" height="30" class="d-inline-block align-top" alt="">
         Accueil

@@ -121,7 +121,7 @@
             <button class = "btn btn-outline-success" type = "submit" name = "modifier"value="<?php echo $r['res_id']; ?>">Modifier la réservation</button>
             <button class = "btn btn-outline-success" type = "submit" name = "valider" value="<?php echo $r['res_id']; ?>">Valider la réservation</button>
             <button class = "btn btn-outline-primary" type = "submit" name = "archiver" value="<?php echo $r['res_id']; ?>">Archiver la réservation</button>
-            <button class = "btn btn-outline-danger" type = "submit" name = "supprimer" value="<?php echo $r['res_id']; ?>">Supprimer la réservation</button>
+            <button class = "btn btn-outline-danger" type = "submit" name = "supprimer" value="<?php echo $r['res_id']; ?>" onclick="return verif()">Supprimer la réservation</button>
             <button class = "btn btn-outline-secondary" type = "submit" name = "annuler">Annuler</button>
         </div>
     </div>

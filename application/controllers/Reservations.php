@@ -76,8 +76,12 @@ class Reservations extends CI_Controller {
         $this->load->view("reservations/getReservations", $data);
     }
 
-    public function setReservation() {
+    public function setReservation() {         
         $this->verifSession(1);
+        if (!empty($this->input->post('supprimer'))) {
+            $this->Reservations_Modele->delectReservation($this->input->post('supprimer'));
+            redirect('Reservations/getReservations');
+        }
         $data["reservation"] = $this->Reservations_Modele->getReservation($this->input->post('modifier'));
         $data["hebergements"] = $this->Reservations_Modele->getTypeHebergement();
         $this->load->view("reservations/setReservation", $data);
