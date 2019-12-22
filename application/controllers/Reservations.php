@@ -11,19 +11,8 @@ class Reservations extends CI_Controller {
         $this->load->model('Reservations_Modele');
         $this->load->model('Adherent_Modele');
         $this->load->library('session');
-
         $this->load->view('templates/header');
         $this->loadMenu();
-
-        /* if (!isset($this->session->identifiant))
-          redirect("Adherent/connexion");
-          else {
-          if (($this->Adherent_Modele->getInformation($this->session->identifiant)[0]['adh_niveau'] == 1))
-          $this->load->view('templates/menuAdmin');
-          else
-          $this->load->view('templates/menuConnecter');
-          } */
-
         $this->load->view('templates/footer');
     }
 

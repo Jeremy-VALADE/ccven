@@ -109,7 +109,6 @@ class Adherent extends CI_Controller {
 
     public function setAdherent() {
         $this->verifSession(1);
-
         if (!empty($this->input->post('supprimer'))) {
             $this->Adherent_Modele->delectAdherent($this->input->post('supprimer'));
             redirect('adherent/getAdherents');

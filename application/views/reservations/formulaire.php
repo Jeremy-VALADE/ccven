@@ -21,7 +21,7 @@
         </select>
     </div>
     <br>
-    <table class ="table table-bordered">
+    <table class ="table table-bordered  table-sm">
         <caption class = "element">Types d'hébergements</caption>
         <thead class ="thead-dark">
         <th scope = "col">Description de la chambre</th>

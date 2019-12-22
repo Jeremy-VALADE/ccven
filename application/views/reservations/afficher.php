@@ -25,7 +25,7 @@
 
                 <div id="collapse<?php echo $i; ?>" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
                     <div class="card-body">
-                        <table class = "table table-bordered">       
+                        <table class = "table table-bordered table-sm">       
                             <caption class = "element">Description de la Réservation</caption> 
                             <thead class = "thead-dark">
                                 <tr>       
@@ -65,7 +65,7 @@
                             </tr>
                         </table>
 
-                        <table class ="table table-bordered">
+                        <table class ="table table-bordered table-sm">
                             <caption class = "element">Description de l'Hébgergement</caption> 
                             <thead class ="thead-dark">                
                             <th scope = "col">Description de la chambre</th>
