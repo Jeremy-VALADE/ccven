@@ -24,7 +24,7 @@
                 <td> <?php echo $r['res_datedebut']; ?></td>            
                 <td><?php echo $r['res_datefin']; ?></td>                    
                 <td><button class="btn btn-outline-primary"  type ="submit" name ="modifier" value ="<?php echo $r['res_id']; ?>">Modifier</button></td>
-                <td><button class="btn btn-outline-danger"  type ="submit" name ="supprimer" value ="<?php echo $r['res_id']; ?>" onclick="return verif()">Supprimer</button></td>           
+                <td><button class="btn btn-outline-danger"  type ="submit" name ="supprimer" value ="<?php echo $r['res_id']; ?>" onclick="return confirm('Êtes vous sur de vouloir supprimer la réservation ?')">Supprimer</button></td>           
             </tr> 
             <?php
             $i++;

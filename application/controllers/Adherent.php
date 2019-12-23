@@ -5,6 +5,7 @@ class Adherent extends CI_Controller {
     public function __construct() {
         parent::__construct();
         $this->load->model('Adherent_Modele');
+        $this->load->model('Reservations_Modele');
         $this->load->helper('url_helper');
         $this->load->helper('url');
         $this->load->library('form_validation');
@@ -35,7 +36,7 @@ class Adherent extends CI_Controller {
             $this->Adherent_Modele->inserer();
             $this->session->identifiant = $this->input->post('adh_email');
             redirect('Adherent');
-        } else {            
+        } else {
             $this->load->view('adherent/inscription');
         }
     }
@@ -103,12 +104,25 @@ class Adherent extends CI_Controller {
     //Méthode permettant de changer les personnes
     public function getAdherents() {
         $this->verifSession(1);
+        $data['message'] = array();
         $data['adherents'] = $this->Adherent_Modele->getInformation();
+
+        for ($i = 0; $i < count($data['adherents']); $i++) {
+            $data['message'][$i] = "Voulez vous supprimer cet utilisateur ?";
+            if (!empty($this->Reservations_Modele->getReservations($data['adherents'][$i]['adh_id'])))
+                $data['message'][$i] = "Cet utilisateur à encore des réservations, êtes vous sur de vouloir le supprimer ?";
+        }
         $this->load->view('adherent/getAdherents', $data);
     }
 
     public function setAdherent() {
         $this->verifSession(1);
+
+        if (!empty($this->Reservations_Modele->getReservations($this->Adherent_Modele->getInformation($this->input->post('modifier'))[0]['adh_id'])))
+            $data['message1'] = "Cet utilisateur a encore des réservations, êtes vous sur de vouloir le supprimer ?";
+        else
+            $data['message1'] = "Voulez vous supprimer cet utilisateur ?";
+        
         if (!empty($this->input->post('supprimer'))) {
             $this->Adherent_Modele->delectAdherent($this->input->post('supprimer'));
             redirect('Adherent/getAdherents');
@@ -145,7 +159,7 @@ class Adherent extends CI_Controller {
             $this->load->view('templates/menuDeconnecter');
     }
 
-    public function verifSession($id) { 
+    public function verifSession($id) {
         if (!isset($this->session->identifiant) || $this->Adherent_Modele->getInformation($this->session->identifiant)[0]['adh_niveau'] != $id)
             redirect('Adherent/connexion');
     }

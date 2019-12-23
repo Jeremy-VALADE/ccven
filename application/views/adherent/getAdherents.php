@@ -12,15 +12,15 @@
         </tr>
     </thead>
 
-    <?php foreach ($adherents as $p): ?>
+    <?php
+    $i = 0;
+    foreach ($adherents as $p): ?>
         <tr>
             <td><?php echo $p['adh_email']; ?></td>
             <td><?php echo $p['adh_nom']; ?></td>
             <td><?php echo $p['adh_prenom']; ?></td>
             <td><button class="btn btn-outline-primary" type="submit" name="modifier" value ="<?php echo $p['adh_email']; ?>">Modifier</button></td>
-            <td><button class="btn btn-outline-danger" type="submit" name="supprimer" value ="<?php echo $p['adh_email']; ?>" onclick="return verif()">Supprimer</button></td>
+            <td><button class="btn btn-outline-danger" type="submit" name="supprimer" value ="<?php echo $p['adh_email']; ?>" onclick="return confirm('<?php echo $message[$i++]; ?>')">Supprimer</button></td>
         </tr>
     <?php endforeach; ?>
 </table>
-
-

@@ -102,7 +102,7 @@
             $i++;
         endforeach; ?>
         <div class = "button">
-            <input class="btn btn-warning" style="margin-top:10px" type="submit" name="submit" value="Supprimer les réservations" onclick="return verif()" />   
+            <input class="btn btn-warning" style="margin-top:10px" type="submit" name="submit" value="Supprimer les réservations" onclick="return confirm('Êtes vous sur de vouloir supprimer les réservations cochées ?')" />   
         </div>
         </form>   
     </div>
