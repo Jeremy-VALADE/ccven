@@ -16,6 +16,7 @@ class Adherent extends CI_Controller {
         $this->load->view('templates/footer');
     }
 
+    //Accueil
     public function index() {
         $this->load->view('adherent/accueil');
     }
@@ -41,7 +42,7 @@ class Adherent extends CI_Controller {
         }
     }
 
-    /* Méthode de connexion pour l'utilisateur */
+    /* Méthode permettant à un utilisateur de se connecter */
 
     public function connexion() {
         $this->form_validation->set_rules('adh_email', 'E-mail', 'required|valid_email');
@@ -54,12 +55,11 @@ class Adherent extends CI_Controller {
             $this->session->identifiant = $this->input->post('adh_email');
             redirect("Adherent");
         } else {
-
             $this->load->view('adherent/connexion');
         }
     }
 
-    /* Méthode qui déconnecte l'utilisateur */
+    /* Méthode permettant à l'utilisateur de se déconnecter */
 
     public function deconnexion() {
         $this->session->sess_destroy();
@@ -101,12 +101,13 @@ class Adherent extends CI_Controller {
         }
     }
 
-    //Méthode permettant de changer les personnes
+    //Méthode permettant de récupérer toutes les adhérents 
     public function getAdherents() {
         $this->verifSession(1);
+        //Méssage qui s'affiche lorqu'un administrateur appuie sur le bouton supprimer 
         $data['message'] = array();
         $data['adherents'] = $this->Adherent_Modele->getInformation();
-
+        
         for ($i = 0; $i < count($data['adherents']); $i++) {
             $data['message'][$i] = "Voulez vous supprimer cet utilisateur ?";
             if (!empty($this->Reservations_Modele->getReservations($data['adherents'][$i]['adh_id'])))
@@ -115,6 +116,7 @@ class Adherent extends CI_Controller {
         $this->load->view('adherent/getAdherents', $data);
     }
 
+    //Méthode permetant de modifer un utilisateur 
     public function setAdherent() {
         $this->verifSession(1);
 
@@ -122,7 +124,7 @@ class Adherent extends CI_Controller {
             $data['message1'] = "Cet utilisateur a encore des réservations, êtes vous sur de vouloir le supprimer ?";
         else
             $data['message1'] = "Voulez vous supprimer cet utilisateur ?";
-        
+
         if (!empty($this->input->post('supprimer'))) {
             $this->Adherent_Modele->delectAdherent($this->input->post('supprimer'));
             redirect('Adherent/getAdherents');
@@ -148,7 +150,8 @@ class Adherent extends CI_Controller {
             redirect('adherent/getAdherents');
         }
     }
-
+    
+    //Méthode qui charge le menu en fonction du grade de la personne
     public function loadMenu() {
         if (isset($this->session->identifiant)) {
             if ($this->Adherent_Modele->getInformation($this->session->identifiant)[0]['adh_niveau'] == 1)
@@ -159,6 +162,7 @@ class Adherent extends CI_Controller {
             $this->load->view('templates/menuDeconnecter');
     }
 
+    //Méthode qui vérifie que l'utilisateur à le droit d'accéder à ces pages
     public function verifSession($id) {
         if (!isset($this->session->identifiant) || $this->Adherent_Modele->getInformation($this->session->identifiant)[0]['adh_niveau'] != $id)
             redirect('Adherent/connexion');

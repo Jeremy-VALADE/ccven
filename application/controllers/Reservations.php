@@ -16,7 +16,7 @@ class Reservations extends CI_Controller {
         $this->load->view('templates/footer');
     }
 
-    //Méthode pour le formulaire permettant d'effectuer une réservation
+    //Méthode permettant à l'utilisateur d'effectuer une réservation
     public function formulaire() {
         $this->verifSession(0);
         $data['datesReservations'] = $this->getDateReservations();
@@ -70,13 +70,15 @@ class Reservations extends CI_Controller {
         redirect("Reservations/afficher");
     }
 
+    //Méthode permettant de récupérer toutes les réservations
     public function getReservations() {
         $this->verifSession(1);
         $data["reservations"] = $this->Reservations_Modele->getReservations();
         $this->load->view("reservations/getReservations", $data);
     }
 
-    public function setReservation() {         
+    //Méthode permettant de récupérer une réservation
+    public function setReservation() {
         $this->verifSession(1);
         if (!empty($this->input->post('supprimer'))) {
             $this->Reservations_Modele->delectReservation($this->input->post('supprimer'));
@@ -101,6 +103,7 @@ class Reservations extends CI_Controller {
         }
     }
 
+    //Méthode permettant de charger le menu
     public function loadMenu() {
         if (isset($this->session->identifiant)) {
             if ($this->Adherent_Modele->getInformation($this->session->identifiant)[0]['adh_niveau'] == 1)
@@ -111,6 +114,7 @@ class Reservations extends CI_Controller {
             $this->load->view('templates/menuDeconnecter');
     }
 
+    //Méthode qui vérifie que l'utilisateur à le droit d'accéder à ces pages
     public function verifSession($id) {
         if (!isset($this->session->identifiant))
             redirect('Adherent/connexion');

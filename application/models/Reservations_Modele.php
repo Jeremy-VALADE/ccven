@@ -8,7 +8,8 @@ class Reservations_Modele extends CI_Model {
         $this->load->helper('url');
         $this->load->library('session');
     }
-
+    
+    //Méthode permettant d'obtenir toutes les réservations d'un client
     public function getReservations($client = 0) {
         $query = null;
         if ($client == 0) {
@@ -32,7 +33,8 @@ class Reservations_Modele extends CI_Model {
 
         return $query->result_array();
     }
-
+    
+    //Méthode permettant d'obtenir une réservation spécifique à l'aide de son identifiant
     public function getReservation($id) {
         $this->db
                 ->select('*')
@@ -45,7 +47,8 @@ class Reservations_Modele extends CI_Model {
         $query = $this->db->get();
         return $query->result_array();
     }
-
+    
+    //Méthode permettant d'ajouter une nouvelle réservation 
     public function insertReservations($client) {
         $data = array(
             'res_date_reserv' => date("Y-m-d H:i:s"),
@@ -63,6 +66,7 @@ class Reservations_Modele extends CI_Model {
         return $this->db->insert('reservation', $data);
     }
 
+    //Méthode permettant de mettre à jour une réservation
     public function updateReservation($etat) {
         $data = array(
             'res_valide' => $etat,
@@ -76,7 +80,8 @@ class Reservations_Modele extends CI_Model {
 
         $this->db->set($data)->where('res_id', $this->input->post('idReservation'))->update('reservation');
     }
-
+    
+    //Méthode permettant de supprimer une réservation
     public function delectReservation($id) {
         if (!is_array($id)) {
             $this->db->where(array('res_id' => $id));
@@ -88,7 +93,8 @@ class Reservations_Modele extends CI_Model {
             endforeach;
         }
     }
-
+    
+    //Méthode qui récupère les types de logement présent dans la base de données
     public function getTypeHebergement($heb = 0) {
         $query = null;
         if ($heb == 0)
